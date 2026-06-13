@@ -29,6 +29,7 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Order>> GetByClientIdAsync(Guid clientId)
         {
             return await _context.Orders
+                .IgnoreQueryFilters() // <--- Игнорируем фильтр удаленных туров
                 .Include(o => o.Items)
                     .ThenInclude(i => i.Schedule)
                         .ThenInclude(s => s.Activity)
@@ -36,9 +37,11 @@ namespace Infrastructure.Repositories
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
+
         public async Task<IEnumerable<OrderItem>> GetOrdersByScheduleAsync(Guid scheduleId)
         {
             return await _context.OrderItems
+                .IgnoreQueryFilters() // <--- Игнорируем фильтр удаленных туров
                 .Include(oi => oi.Order)
                     .ThenInclude(o => o.Client)
                 .Include(oi => oi.Schedule)
@@ -50,6 +53,7 @@ namespace Infrastructure.Repositories
         public async Task<Order> GetByIdAsync(Guid id)
         {
             return await _context.Orders
+                .IgnoreQueryFilters() // <--- Игнорируем фильтр удаленных туров
                 .Include(o => o.Items)
                     .ThenInclude(i => i.Schedule)
                         .ThenInclude(s => s.Activity)
@@ -66,6 +70,7 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Order>> GetAllAsync()
         {
             return await _context.Orders
+                .IgnoreQueryFilters() // <--- Игнорируем фильтр удаленных туров
                 .Include(o => o.Items)
                     .ThenInclude(i => i.Schedule)
                         .ThenInclude(s => s.Activity)

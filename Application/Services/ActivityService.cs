@@ -155,7 +155,7 @@ namespace Application.Services
         public async Task UpdateActivityAsync(Guid id, CreateActivityRequest request, Guid sellerId)
         {
             var activity = await _activityRepo.GetByIdAsync(id);
-            if (activity == null) throw new Exception("Активность не найдена");
+            if (activity == null) throw new Exception("Активность не найдена");     
             if (activity.SellerId != sellerId) throw new UnauthorizedAccessException("Нет прав на редактирование");
 
             activity.Title = request.Title;
@@ -180,7 +180,8 @@ namespace Application.Services
             var activity = await _activityRepo.GetByIdAsync(id);
             if (activity != null)
             {
-                await _activityRepo.DeleteAsync(activity);
+                activity.IsDeleted = true;
+                await _activityRepo.UpdateAsync(activity);
             }
         }
         

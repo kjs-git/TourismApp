@@ -18,6 +18,7 @@ namespace Domain.Entities
 
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsDeleted { get; set; } = false;
         public ICollection<ActivitySchedule> Schedules { get; set; } = new List<ActivitySchedule>();
 
     }
