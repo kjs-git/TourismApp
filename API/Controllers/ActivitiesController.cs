@@ -13,10 +13,12 @@ namespace API.Controllers
     public class ActivitiesController : ControllerBase
     {
         private readonly IActivityService _activityService;
+        private readonly IAiIntegrationService _aiIntegrationService;
 
-        public ActivitiesController(IActivityService activityService)
+        public ActivitiesController(IActivityService activityService, IAiIntegrationService aiIntegrationService)
         {
             _activityService = activityService;
+            _aiIntegrationService = aiIntegrationService;
         }
 
         [HttpPost]
@@ -52,7 +54,7 @@ namespace API.Controllers
 
                 return Ok(new { id = scheduleId, message = "Расписание успешно добавлено" });
             }
-            catch (UnauthorizedAccessException ex) 
+            catch (UnauthorizedAccessException ex)
             {
                 return StatusCode(403, new { message = ex.Message });
             }
@@ -84,7 +86,7 @@ namespace API.Controllers
 
 
         [HttpGet]
-        [AllowAnonymous] 
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var result = await _activityService.GetAllActivitiesAsync();
@@ -92,7 +94,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous] 
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(Guid id)
         {
             try
@@ -103,6 +105,27 @@ namespace API.Controllers
             catch (Exception ex)
             {
                 return NotFound(new { message = ex.Message });
+            }
+        }
+
+
+        [HttpGet("{id}/ai-description")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAiDescription(Guid id)
+        {
+            try
+            {
+                var activity = await _activityService.GetActivityDetailsAsync(id);
+                if (activity == null)
+                    return NotFound(new { message = "Маршрут не найден." });
+
+                string result = await _aiIntegrationService.GenerateExpandedDescriptionAsync(activity.Title, activity.Description);
+
+                return Ok(new { expandedDescription = result });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
@@ -140,6 +163,7 @@ namespace API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
@@ -153,6 +177,6 @@ namespace API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-        
+
     }
 }

@@ -42,9 +42,7 @@ namespace Infrastructure.Persistence
                 .HasOne(oi => oi.Schedule)
                 .WithMany()
                 .HasForeignKey(oi => oi.ScheduleId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            
+                .OnDelete(DeleteBehavior.Restrict);        
         }
     }
 }

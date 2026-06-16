@@ -56,6 +56,7 @@ builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
 builder.Services.AddScoped<IActivityDetailsRepository, ActivityDetailsRepository>();
 builder.Services.AddScoped<IActivityService, ActivityService>();
 builder.Services.AddScoped<IActivityScheduleRepository, ActivityScheduleRepository>();
+builder.Services.AddHttpClient<IAiIntegrationService, AiIntegrationService>();
 
 
 builder.Services.AddStackExchangeRedisCache(options =>
