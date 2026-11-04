@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # --- БАЗЫ ДАННЫХ ---
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tourism_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tourism_network
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo_export:/mongo_export
+    networks:
+      - tourism_network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - tourism_network
+
+  # --- BACKEND (C# .NET 9 API) ---
+  # --- BACKEND (C# .NET 9 API) ---
+  api:
+    build: 
+      context: ./TourismApp
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80" 
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+    networks:
+      - tourism_network
+    volumes:
+      - ./TourismApp/API/wwwroot/uploads:/app/wwwroot/uploads
+
+  # --- FRONTEND (React 19 + Vite + Nginx) ---
+  frontend:
+    build: 
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80" 
+    depends_on:
+      - api
+    networks:
+      - tourism_network
+
+  # --- ТУННЕЛЬ ---
+  localtunnel:
+    image: node:20-alpine
+    command: npx -y localtunnel --port 80 --local-host frontend --subdomain my-tourism-app-2026
+    depends_on:
+      - frontend
+    networks:
+      - tourism_network
+
+networks:
+  tourism_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongo_data:

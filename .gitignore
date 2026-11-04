@@ -1,0 +1,78 @@
+# ==========================================
+# .NET / C# (Backend)
+# ==========================================
+**/[Bb]in/
+**/[Oo]bj/
+**/.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+[Dd]ebug/
+[Rr]elease/
+**/TestResults/
+
+# .NET Configuration & Secrets (local overrides)
+appsettings.Development.json
+appsettings.*.local.json
+appsettings.Local.json
+*.local.json
+
+# ==========================================
+# Node.js / React / Vite (Frontend)
+# ==========================================
+node_modules/
+dist/
+dist-ssr/
+build/
+*.local
+.npm
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ==========================================
+# Environment Variables & Secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.certificate
+
+# ==========================================
+# Databases & Dumps
+# ==========================================
+dump/
+*.bson
+*.json.gz
+*.sqlite
+*.db
+
+# ==========================================
+# User Uploads / Media (keep structure via .gitkeep)
+# ==========================================
+TourismApp/API/wwwroot/uploads/**
+!TourismApp/API/wwwroot/uploads/
+!TourismApp/API/wwwroot/uploads/**/
+!TourismApp/API/wwwroot/uploads/**/.gitkeep
+
+# ==========================================
+# IDEs, Editors & OS Files
+# ==========================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.sw?
+.DS_Store
+Thumbs.db
+desktop.ini

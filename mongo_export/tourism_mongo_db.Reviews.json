@@ -1,0 +1,19 @@
+[{
+  "_id": "bd299fda-bb09-409d-a1ff-4caf30ea2111",
+  "ActivityId": {
+    "$uuid": "2f16a1bd-dd1d-4705-8e33-8e6c7981ea48"
+  },
+  "UserId": {
+    "$uuid": "ee4a6b83-0a7e-4c41-b2d5-e1dc1b9f2601"
+  },
+  "UserFullName": "K D S",
+  "Rating": 5,
+  "Comment": "Незабываемое путешествие, масса эмоций и позитива!",
+  "CreatedAt": {
+    "$date": "2026-05-19T10:21:39.384Z"
+  },
+  "ImageUrls": [
+    "/uploads/reviews/3f871ff5-9821-4284-a6aa-c994edfe8282.jpg",
+    "/uploads/reviews/48cf02a0-d329-419f-9faf-db58b278977d.jpg"
+  ]
+}]
